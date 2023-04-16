@@ -1,17 +1,39 @@
+import React, { Key } from 'react';
+import { InferGetServerSidePropsType } from 'next';
+import ExpensesList from '@/components/ExpensesList';
 
-import Head from "next/head";
-import React from 'react';
-import ExpensesForm from "./expenses";
+export interface ExpensesProps {
+  _id: Key;
+  item: string;
+  price: number;
+}
 
+export interface ExpensesListProps {
+  data: ExpensesProps[];
+}
 
-const index = () => {
+export async function getServerSideProps() {
+  try {
+    let res = await fetch('http://localhost:3000/api/expenses/getAllExpenses');
+    let allExpenses = await res.json();
+
+    return {
+      props: { allExpenses: JSON.parse(JSON.stringify(allExpenses)) },
+    };
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+const AllExpenses = ({
+  allExpenses,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  console.log(allExpenses);
   return (
     <div>
-      this is root
-      <ExpensesForm />
+      <ExpensesList data={allExpenses} />
     </div>
   );
 };
 
-export default index;
-
+export default AllExpenses;
