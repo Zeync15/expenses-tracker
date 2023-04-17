@@ -5,10 +5,10 @@ import {NextApiRequest, NextApiResponse} from "next";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const client = await clientPromise;
-    const db = client.db("posts");
-    const id = req.query.id?.[0];
+    const db = client.db("expenses_tracker");
+    const id = req.query.id?.toString();
 
-    const post = await db.collection("posts").deleteOne({
+    const post = await db.collection("expenses").deleteOne({
       _id: new ObjectId(id),
     });
 

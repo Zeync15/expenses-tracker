@@ -1,46 +1,61 @@
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  GetStaticPropsContext,
-  InferGetServerSidePropsType,
-} from 'next';
+import ExpensesForm from "@/components/ExpensesForm";
+import { FormValue, defaultValues } from "@/model/expenses-model";
+import { GetServerSidePropsContext, GetStaticPathsResult, GetStaticPropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from 'next/router';
-import { ExpensesProps } from '..';
-import clientPromise from '@/lib/mongodb';
-import { ParsedUrlQuery } from 'querystring';
+import { useState } from "react";
 
-interface Params extends ParsedUrlQuery {
-  id: string;
-}
-
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { expenses_id } = context.query;
   try {
-    const client = await clientPromise;
-    const db = client.db('expenses_tracker');
-    const { id } = context.query;
-
-    const expenses = await db.collection('expenses').findOne({
-      _id: id,
-    });
-
-    // res.json(expenses);
+    let res = await fetch('http://localhost:3000/api/expenses/getExpenses?id=' + expenses_id);
+    let singleExpenses = await res.json();
 
     return {
-      props: { expenses: JSON.parse(JSON.stringify(expenses)) },
+      props: { singleExpenses: JSON.parse(JSON.stringify(singleExpenses)) },
     };
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.error(e);
   }
 }
 
-const EditExpenses = ({ expenses }: any) => {
-  console.log(expenses, 'sespe');
+const EditExpenses = ({ singleExpenses }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const { expenses_id } = router.query;
+
+  const [formValues, setFormValues] = useState<FormValue>(singleExpenses);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      let res = await fetch('http://localhost:3000/api/expenses/editExpenses?id=' + expenses_id, {
+        method: 'POST',
+        body: JSON.stringify(formValues),
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+      });
+      res = await res.json();
+
+      router.push('/');
+    } catch (error) {
+      console.error(error);
+    }
+
+    setFormValues(defaultValues);
+  };
+
+
   return (
-    <div>
-      <p>Expenses id: {expenses_id}</p>
-    </div>
+    <ExpensesForm handleInputChange={handleInputChange} handleSubmit={handleSubmit}  formValues={formValues}/>
   );
 };
 

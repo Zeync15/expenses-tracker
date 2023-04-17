@@ -1,16 +1,6 @@
-import React, { Key } from 'react';
+import React from 'react';
 import { InferGetServerSidePropsType } from 'next';
 import ExpensesList from '@/components/ExpensesList';
-
-export interface ExpensesProps {
-  _id: Key;
-  item: string;
-  price: number;
-}
-
-export interface ExpensesListProps {
-  data: ExpensesProps[];
-}
 
 export async function getServerSideProps() {
   try {
@@ -28,11 +18,8 @@ export async function getServerSideProps() {
 const AllExpenses = ({
   allExpenses,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log(allExpenses);
   return (
-    <div>
-      <ExpensesList data={allExpenses} />
-    </div>
+    <ExpensesList data={allExpenses} />
   );
 };
 
