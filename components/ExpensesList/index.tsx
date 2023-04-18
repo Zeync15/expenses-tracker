@@ -37,7 +37,7 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
               <tr>
                 <th className="p-2 border">Item</th>
                 <th className="p-2 border">Price</th>
-                <th className="p-2 border"></th>
+                <th className="p-2 border">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -50,13 +50,15 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
                   <td className="p-2 border">{item.price}</td>
                   <td className="p-2 border w-1/12">
                     <div className="text-xl flex justify-around">
-                      <button>
-                        <Link href={`/expenses/${item._id}`}>
-                          <RiEditLine />
+                      <button className="group relative">
+                        <span className="text-xs opacity-0 group-hover:opacity-100 absolute bottom-6 right-[-7px] bg-slate-600 text-white p-1 px-2 rounded ease-in duration-150">Edit</span>
+                        <Link href={`/expenses/${item._id}`} className="">
+                          <RiEditLine className="hover:scale-110" />
                         </Link>
                       </button>
-                      <button onClick={() => handleDelete(item._id)}>
-                        <RiDeleteBinLine />
+                      <button onClick={() => handleDelete(item._id)} className="group relative">
+                        <span className="text-xs opacity-0 group-hover:opacity-100 absolute bottom-6 right-[-15px] bg-slate-600 text-white p-1 px-2 rounded ease-in duration-150">Delete</span>
+                        <RiDeleteBinLine className="hover:scale-110" />
                       </button>
                     </div>
                   </td>
