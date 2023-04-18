@@ -1,6 +1,8 @@
 import { ExpensesFormProps } from "@/model/expenses-model";
 import Head from "next/head";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { RiArrowLeftLine } from 'react-icons/ri';
 
 const ExpensesForm = ({ handleInputChange, handleSubmit, formValues }: ExpensesFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -15,7 +17,7 @@ const ExpensesForm = ({ handleInputChange, handleSubmit, formValues }: ExpensesF
         <title>Add Expenses</title>
       </Head>
       <div className="text-center text-5xl mt-8">{isEditing ? "Edit Expenses" : "Add Expenses"}</div>
-      <div className="mt-4 flex justify-center align-center">
+      <div className="mt-4 flex flex-col justify-center items-center">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="min-w-[100px]">Item:</label>
@@ -42,10 +44,20 @@ const ExpensesForm = ({ handleInputChange, handleSubmit, formValues }: ExpensesF
               />
             </label>
           </div>
-          <button type="submit" className="border-2 rounded-md py-1 px-2">
-            Add
-          </button>
+          <div className="flex justify-center mb-4">
+            <button type="submit" className="border-2 rounded-md py-1 px-2">
+              Add
+            </button>
+          </div>
         </form>
+
+        <div>
+          <button>
+            <Link href="/" className="flex items-center">
+              <RiArrowLeftLine /><span className="ml-2">Go back</span>
+            </Link>
+          </button>
+        </div>
       </div>
     </div>
   );
