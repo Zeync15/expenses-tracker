@@ -3,12 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Key } from "react";
-import {
-  RiEditLine,
-  RiDeleteBinLine,
-  RiAddLine,
-  RiAddCircleFill,
-} from "react-icons/ri";
+import { RiEditLine, RiDeleteBinLine, RiAddCircleFill } from "react-icons/ri";
 
 const ExpensesList = ({ data }: ExpensesListProps) => {
   const router = useRouter();
@@ -31,6 +26,7 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
       console.error(error);
     }
   };
+
   return (
     <>
       <Head>
@@ -47,6 +43,7 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
                 <tr>
                   <th className="p-2 border">Item</th>
                   <th className="p-2 border">Price</th>
+                  <th className="p-2 border">Date</th>
                   <th className="p-2 border">Actions</th>
                 </tr>
               </thead>
@@ -55,6 +52,9 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
                   <tr key={item._id} className="hover:bg-gray-100">
                     <td className="p-2 border">{item.item}</td>
                     <td className="p-2 border">{item.price}</td>
+                    <td className="p-2 border">
+                      {item.date.toString().substring(0, 10)}
+                    </td>
                     <td className="p-2 border w-1/12">
                       <div className="text-xl flex justify-around">
                         <button className="group relative">

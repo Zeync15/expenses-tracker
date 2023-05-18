@@ -4,22 +4,25 @@ export interface ExpensesProps {
   _id: Key;
   item: string;
   price: number;
-  handleDelete?: () => Promise<void>,
+  date: Date;
+  handleDelete?: () => Promise<void>;
 }
 
 export interface ExpensesListProps {
-  data?: ExpensesProps[] ;
+  data?: ExpensesProps[];
 }
 
 export interface FormValue {
-  _id?: Key,
+  _id?: Key;
   item: string;
   price: number;
+  date: Date;
 }
 
 export const defaultValues: FormValue = {
-  item: '',
+  item: "",
   price: 0,
+  date: new Date(Date.now().toString().substring(0, 10)),
 };
 
 export interface ExpensesFormProps {
@@ -27,4 +30,3 @@ export interface ExpensesFormProps {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
   formValues: FormValue;
 }
-

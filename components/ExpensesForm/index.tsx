@@ -2,9 +2,13 @@ import { ExpensesFormProps } from "@/model/expenses-model";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { RiArrowLeftLine } from 'react-icons/ri';
+import { RiArrowLeftLine } from "react-icons/ri";
 
-const ExpensesForm = ({ handleInputChange, handleSubmit, formValues }: ExpensesFormProps) => {
+const ExpensesForm = ({
+  handleInputChange,
+  handleSubmit,
+  formValues,
+}: ExpensesFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -16,7 +20,9 @@ const ExpensesForm = ({ handleInputChange, handleSubmit, formValues }: ExpensesF
       <Head>
         <title>Add Expenses</title>
       </Head>
-      <div className="text-center text-5xl mt-8">{isEditing ? "Edit Expenses" : "Add Expenses"}</div>
+      <div className="text-center text-5xl mt-8">
+        {isEditing ? "Edit Expenses" : "Add Expenses"}
+      </div>
       <div className="mt-4 flex flex-col justify-center items-center">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -36,9 +42,21 @@ const ExpensesForm = ({ handleInputChange, handleSubmit, formValues }: ExpensesF
               <input
                 type="number"
                 min={0}
-                step={0.1}
+                step={0.01}
                 name="price"
                 value={formValues.price}
+                onChange={handleInputChange}
+                className="border-2 rounded-md ml-4 p-1"
+              />
+            </label>
+          </div>
+          <div className="mb-4">
+            <label className="min-w-[100px]">
+              Date:
+              <input
+                type="date"
+                name="date"
+                value={formValues.date.toString().substring(0, 10)}
                 onChange={handleInputChange}
                 className="border-2 rounded-md ml-4 p-1"
               />
@@ -54,7 +72,8 @@ const ExpensesForm = ({ handleInputChange, handleSubmit, formValues }: ExpensesF
         <div>
           <button>
             <Link href="/" className="flex items-center">
-              <RiArrowLeftLine /><span className="ml-2">Go back</span>
+              <RiArrowLeftLine />
+              <span className="ml-2">Go back</span>
             </Link>
           </button>
         </div>
