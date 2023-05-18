@@ -44,6 +44,7 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
                   <th className="p-2 border">Item</th>
                   <th className="p-2 border">Price</th>
                   <th className="p-2 border">Date</th>
+                  <th className="p-2 border">Category</th>
                   <th className="p-2 border">Actions</th>
                 </tr>
               </thead>
@@ -55,6 +56,7 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
                     <td className="p-2 border">
                       {item.date.toString().substring(0, 10)}
                     </td>
+                    <td className="p-2 border">{item.category}</td>
                     <td className="p-2 border w-1/12">
                       <div className="text-xl flex justify-around">
                         <button className="group relative">

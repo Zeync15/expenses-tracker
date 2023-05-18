@@ -7,12 +7,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const client = await clientPromise;
     const db = client.db("expenses_tracker");
 
-    const { item, price, date } = req.body;
+    const { item, price, date, category } = req.body;
 
     const expenses = await db.collection("expenses").insertOne({
       item,
       price: parseFloat(price).toFixed(2),
       date: new Date(date),
+      category,
       createdDate: new Date(Date.now()),
     });
 

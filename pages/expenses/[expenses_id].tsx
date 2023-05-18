@@ -24,7 +24,7 @@ const EditExpenses = ({ singleExpenses }: InferGetServerSidePropsType<typeof get
 
   const [formValues, setFormValues] = useState<FormValue>(singleExpenses);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
     setFormValues((prevValues) => ({
       ...prevValues,
