@@ -28,8 +28,8 @@ const Expenses = () => {
           "Content-Type": "application/json",
         },
       });
-      res = await res.json();
 
+      res = await res.json();
       router.push("/");
     } catch (error) {
       console.error(error);

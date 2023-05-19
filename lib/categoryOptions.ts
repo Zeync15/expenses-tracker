@@ -1,13 +1,9 @@
-interface CategoryOptionsProps {
+export interface CategoryOptionsProps {
   value: string;
   label: string;
 }
 
-export const categoryOptions: CategoryOptionsProps[] = [
-  {
-    label: "",
-    value: "",
-  },
+export const expensesOptions: CategoryOptionsProps[] = [
   {
     label: "Food",
     value: "Food",
@@ -19,5 +15,36 @@ export const categoryOptions: CategoryOptionsProps[] = [
   {
     label: "Transport",
     value: "Transport",
+  },
+];
+
+export const incomesOptions: CategoryOptionsProps[] = [
+  {
+    label: "Salary",
+    value: "Salary",
+  },
+  {
+    label: "Allowance",
+    value: "Allowance",
+  },
+  {
+    label: "Gift",
+    value: "Gift",
+  },
+];
+
+export interface GroupedOption {
+  readonly label: string;
+  readonly options: readonly CategoryOptionsProps[] | null;
+}
+
+export const groupedOptions: readonly GroupedOption[] = [
+  {
+    label: "Expenses",
+    options: expensesOptions,
+  },
+  {
+    label: "Income",
+    options: incomesOptions,
   },
 ];

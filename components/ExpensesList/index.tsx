@@ -1,4 +1,5 @@
 import { ExpensesListProps } from "@/model/expenses-model";
+import dayjs from "dayjs";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -54,7 +55,7 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
                     <td className="p-2 border">{item.item}</td>
                     <td className="p-2 border">{item.price}</td>
                     <td className="p-2 border">
-                      {item.date.toString().substring(0, 10)}
+                      {dayjs(item.date).format("YYYY-MM-DD")}
                     </td>
                     <td className="p-2 border">{item.category}</td>
                     <td className="p-2 border w-1/12">

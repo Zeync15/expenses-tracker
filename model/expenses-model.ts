@@ -1,11 +1,11 @@
-import { categoryOptions } from "@/lib/categoryOptions";
+import dayjs from "dayjs";
 import { ChangeEvent, FormEvent, Key } from "react";
 
 export interface ExpensesProps {
   _id: Key;
   item: string;
   price: number;
-  date: Date;
+  date: string;
   category: string;
   handleDelete?: () => Promise<void>;
 }
@@ -18,14 +18,14 @@ export interface FormValue {
   _id?: Key;
   item: string;
   price: number;
-  date: Date;
+  date: string;
   category: string;
 }
 
 export const defaultValues: FormValue = {
   item: "",
   price: 0,
-  date: new Date(Date.now().toString().substring(0, 10)),
+  date: dayjs().format("YYYY-MM-DD"),
   category: "",
 };
 

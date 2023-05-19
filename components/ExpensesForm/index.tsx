@@ -1,9 +1,16 @@
-import { ExpensesFormProps } from "@/model/expenses-model";
+import { ExpensesFormProps, defaultValues } from "@/model/expenses-model";
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { RiArrowLeftLine } from "react-icons/ri";
-import { categoryOptions } from "@/lib/categoryOptions";
+import {
+  CategoryOptionsProps,
+  GroupedOption,
+  expensesOptions,
+  groupedOptions,
+} from "@/lib/categoryOptions";
+import Select from "react-select";
+import dayjs from "dayjs";
 
 const ExpensesForm = ({
   handleInputChange,
@@ -11,10 +18,24 @@ const ExpensesForm = ({
   formValues,
 }: ExpensesFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedOption, setSelectedOption] =
+    useState<CategoryOptionsProps | null>(null);
 
   useEffect(() => {
-    formValues._id ? setIsEditing(true) : setIsEditing(false);
+    formValues._id && setIsEditing(true);
+    formValues._id &&
+      setSelectedOption(
+        // expensesOptions.find((i) => i.value === formValues.category)!
+        groupedOptions?.map((i) =>
+          i.options.find((i) => i.value === formValues?.category)
+        )
+      );
   }, []);
+
+  const handleSelectChange = (selected: CategoryOptionsProps | null) => {
+    setSelectedOption(selected);
+    formValues.category = selected!.value;
+  };
 
   return (
     <div>
@@ -58,33 +79,33 @@ const ExpensesForm = ({
             className="border-2 rounded-md p-1 w-[250px]"
             type="date"
             name="date"
-            value={formValues.date.toString().substring(0, 10)}
+            value={dayjs(formValues.date).format("YYYY-MM-DD")}
             onChange={handleInputChange}
           />
         </div>
+
         <div className="flex mb-4">
           <label className="w-[100px]">Category:</label>
-          <select
-            className="border-2 rounded-md p-1 w-[250px]"
+          <Select
+            options={groupedOptions}
             name="category"
-            value={formValues.category}
-            onChange={handleInputChange}
-            required
-          >
-            {categoryOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            value={selectedOption}
+            onChange={handleSelectChange}
+            placeholder="Expenses / Income"
+            className="w-[250px]"
+            instanceId={useId()}
+            defaultValue={selectedOption}
+            required={true}
+          />
         </div>
+
         <div className="flex flex-col items-center">
           <div>
             <button
               type="submit"
               className="border-2 rounded-md py-1 px-2 mb-4"
             >
-              Add
+              {isEditing ? "Update" : "Add"}
             </button>
           </div>
 
