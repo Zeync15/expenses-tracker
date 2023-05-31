@@ -3,11 +3,11 @@ import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { RiArrowLeftLine } from "react-icons/ri";
-import { CategoryOptionsProps, expensesOptions } from "@/lib/categoryOptions";
+import { CategoryOptionsProps, incomesOptions } from "@/lib/categoryOptions";
 import Select from "react-select";
 import dayjs from "dayjs";
 
-const ExpensesForm = ({
+const IncomeForm = ({
   handleInputChange,
   handleSubmit,
   formValues,
@@ -20,7 +20,7 @@ const ExpensesForm = ({
     formValues._id && setIsEditing(true);
     formValues._id &&
       setSelectedOption(
-        expensesOptions.find((option) => option.value === formValues.category)!
+        incomesOptions.find((option) => option.value === formValues.category)!
       );
   }, []);
 
@@ -35,7 +35,7 @@ const ExpensesForm = ({
         <title>Add Expenses</title>
       </Head>
       <div className="text-center text-5xl my-8">
-        {isEditing ? "Edit Expenses" : "Add Expenses"}
+        {isEditing ? "Edit Income" : "Add Income"}
       </div>
 
       <form
@@ -79,11 +79,11 @@ const ExpensesForm = ({
         <div className="flex mb-4">
           <label className="w-[100px]">Category:</label>
           <Select
-            options={expensesOptions}
+            options={incomesOptions}
             name="category"
             value={selectedOption}
             onChange={handleSelectChange}
-            placeholder="Expenses"
+            placeholder="Income"
             className="w-[250px]"
             instanceId={useId()}
             defaultValue={selectedOption}
@@ -111,4 +111,4 @@ const ExpensesForm = ({
   );
 };
 
-export default ExpensesForm;
+export default IncomeForm;

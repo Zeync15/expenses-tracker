@@ -32,19 +32,3 @@ export const incomesOptions: CategoryOptionsProps[] = [
     value: "Gift",
   },
 ];
-
-export interface GroupedOption {
-  readonly label: string;
-  readonly options: readonly CategoryOptionsProps[] | null;
-}
-
-export const groupedOptions: readonly GroupedOption[] = [
-  {
-    label: "Expenses",
-    options: expensesOptions,
-  },
-  {
-    label: "Income",
-    options: incomesOptions,
-  },
-];

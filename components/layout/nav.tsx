@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const Nav = () => {
   return (
@@ -8,7 +8,10 @@ const Nav = () => {
           <Link href="/">Home</Link>
         </li>
         <li className="p-4">
-          <Link href="/expenses/">Expenses</Link>
+          <Link href="/expenses">Expenses</Link>
+        </li>
+        <li className="p-4">
+          <Link href="/income">Income</Link>
         </li>
       </ul>
     </div>

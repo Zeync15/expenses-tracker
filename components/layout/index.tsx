@@ -1,5 +1,5 @@
-import { ReactElement, ReactNode } from "react";
-import Nav from './nav';
+import { ReactNode } from "react";
+import Nav from "./nav";
 
 interface LayoutProps {
   children: ReactNode;
