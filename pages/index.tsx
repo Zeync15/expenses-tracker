@@ -5,6 +5,7 @@ import IncomeList from "@/components/IncomeList";
 import { RiAddCircleFill } from "react-icons/ri";
 import BudgetSelector from "@/components/BudgetSelector";
 import Head from "next/head";
+import LoginButton from "@/components/LoginButton";
 
 export async function getServerSideProps() {
   try {
@@ -53,6 +54,8 @@ const AllExpenses = ({
           <BudgetSelector setShowBudgetSelector={setShowBudgetSelector} />
         )}
       </div>
+
+      <LoginButton />
     </>
   );
 };
