@@ -1,6 +1,7 @@
 import ExpensesForm from "@/components/ExpensesForm";
 import { FormValue, defaultValues } from "@/model/expenses-model";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -27,6 +28,7 @@ const EditExpenses = ({
   const { expenses_id } = router.query;
 
   const [formValues, setFormValues] = useState<FormValue>(singleExpenses);
+  const { data: session } = useSession();
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -40,12 +42,16 @@ const EditExpenses = ({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const finalValue = {
+      ...formValues,
+      userId: session?.user.id,
+    };
     try {
       let res = await fetch(
         "http://localhost:3000/api/expenses/editExpenses?id=" + expenses_id,
         {
           method: "POST",
-          body: JSON.stringify(formValues),
+          body: JSON.stringify(finalValue),
           headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json",

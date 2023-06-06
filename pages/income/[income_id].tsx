@@ -1,6 +1,7 @@
 import IncomeForm from "@/components/IncomeForm";
 import { FormValue, defaultValues } from "@/model/expenses-model";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -20,13 +21,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 }
 
-const EditExpenses = ({
+const EditIncome = ({
   singleIncome,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const { income_id } = router.query;
 
   const [formValues, setFormValues] = useState<FormValue>(singleIncome);
+  const { data: session } = useSession();
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -40,12 +42,16 @@ const EditExpenses = ({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const finalValue = {
+      ...formValues,
+      userId: session?.user.id,
+    };
     try {
       let res = await fetch(
         "http://localhost:3000/api/income/editIncome?id=" + income_id,
         {
           method: "POST",
-          body: JSON.stringify(formValues),
+          body: JSON.stringify(finalValue),
           headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json",
@@ -71,4 +77,4 @@ const EditExpenses = ({
   );
 };
 
-export default EditExpenses;
+export default EditIncome;

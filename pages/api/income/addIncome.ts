@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const client = await clientPromise;
     const db = client.db("expenses_tracker");
 
-    const { item, price, date, category } = req.body;
+    const { item, price, date, category, userId } = req.body;
 
     const income = await db.collection("income").insertOne({
       item,
@@ -15,6 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       date: new Date(date),
       category,
       createdDate: new Date(Date.now()),
+      userId,
     });
 
     res.json(income);
