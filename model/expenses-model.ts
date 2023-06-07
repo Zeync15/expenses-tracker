@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { Session } from "next-auth";
 import { ChangeEvent, FormEvent, Key } from "react";
 
 export interface ExpensesProps {
@@ -35,4 +36,5 @@ export interface ExpensesFormProps {
   ) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
   formValues: FormValue;
+  session?: Session;
 }

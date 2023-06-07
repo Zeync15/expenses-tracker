@@ -11,6 +11,7 @@ const ExpensesForm = ({
   handleInputChange,
   handleSubmit,
   formValues,
+  session,
 }: ExpensesFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedOption, setSelectedOption] =
@@ -96,6 +97,7 @@ const ExpensesForm = ({
             <button
               type="submit"
               className="border-2 rounded-md py-1 px-2 mb-4"
+              disabled={!session}
             >
               {isEditing ? "Update" : "Add"}
             </button>
