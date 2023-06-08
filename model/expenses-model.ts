@@ -36,5 +36,4 @@ export interface ExpensesFormProps {
   ) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
   formValues: FormValue;
-  session?: Session;
 }

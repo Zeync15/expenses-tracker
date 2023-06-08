@@ -6,12 +6,12 @@ import { RiArrowLeftLine } from "react-icons/ri";
 import { CategoryOptionsProps, incomesOptions } from "@/lib/categoryOptions";
 import Select from "react-select";
 import dayjs from "dayjs";
+import { useSession } from "next-auth/react";
 
 const IncomeForm = ({
   handleInputChange,
   handleSubmit,
   formValues,
-  session,
 }: ExpensesFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedOption, setSelectedOption] =
@@ -29,6 +29,8 @@ const IncomeForm = ({
     setSelectedOption(selected);
     formValues.category = selected!.value;
   };
+
+  const { status } = useSession();
 
   return (
     <div>
@@ -97,7 +99,7 @@ const IncomeForm = ({
             <button
               type="submit"
               className="border-2 rounded-md py-1 px-2 mb-4"
-              disabled={!session}
+              disabled={status !== "authenticated"}
             >
               {isEditing ? "Update" : "Add"}
             </button>
