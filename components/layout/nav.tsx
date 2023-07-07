@@ -3,7 +3,6 @@ import Link from "next/link";
 
 const Nav = () => {
   const { data: session } = useSession();
-  console.log(session, "uS");
 
   return (
     <div className="flex justify-between bg-gray-400  text-white">

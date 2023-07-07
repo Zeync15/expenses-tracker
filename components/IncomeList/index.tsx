@@ -1,5 +1,6 @@
 import { ExpensesListProps } from "@/model/expenses-model";
 import dayjs from "dayjs";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Key } from "react";
@@ -26,6 +27,8 @@ const IncomeList = ({ data }: ExpensesListProps) => {
       console.error(error);
     }
   };
+
+  const { data: session } = useSession();
 
   return (
     <>
@@ -64,6 +67,7 @@ const IncomeList = ({ data }: ExpensesListProps) => {
                       <button
                         onClick={() => handleDelete(item._id)}
                         className="group relative"
+                        disabled={!session}
                       >
                         <span className="text-xs opacity-0 group-hover:opacity-100 absolute bottom-6 right-[-15px] bg-slate-600 text-white p-1 px-2 rounded ease-in duration-150">
                           Delete
