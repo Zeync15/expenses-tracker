@@ -16,6 +16,9 @@ const Nav = () => {
         <li className="p-4">
           <Link href="/income">Income</Link>
         </li>
+        <li className="p-4">
+          <Link href="/sandbox">Sandbox</Link>
+        </li>
       </ul>
 
       <ul className="flex">
