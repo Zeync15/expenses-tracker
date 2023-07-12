@@ -18,8 +18,8 @@ const IncomeForm = ({
     useState<CategoryOptionsProps | null>(null);
 
   useEffect(() => {
-    formValues._id && setIsEditing(true);
-    formValues._id &&
+    formValues.id && setIsEditing(true);
+    formValues.id &&
       setSelectedOption(
         incomesOptions.find((option) => option.value === formValues.category)!
       );

@@ -3,7 +3,7 @@ import { Session } from "next-auth";
 import { ChangeEvent, FormEvent, Key } from "react";
 
 export interface ExpensesProps {
-  _id: Key;
+  id: Key;
   item: string;
   price: number;
   date: string;
@@ -16,7 +16,7 @@ export interface ExpensesListProps {
 }
 
 export interface FormValue {
-  _id?: Key;
+  id?: Key;
   item: string;
   price: number;
   date: string;

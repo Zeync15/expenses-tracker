@@ -9,7 +9,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { expenses_id } = context.query;
   try {
     let res = await fetch(
-      "http://localhost:3000/api/expenses/getExpenses?id=" + expenses_id
+      "http://localhost:5000/expense/" + expenses_id
     );
     let singleExpenses = await res.json();
 
@@ -44,13 +44,13 @@ const EditExpenses = ({
     event.preventDefault();
     const finalValue = {
       ...formValues,
-      userId: session?.user.id,
+      price: +formValues.price,
     };
     try {
       let res = await fetch(
-        "http://localhost:3000/api/expenses/editExpenses?id=" + expenses_id,
+        "http://localhost:5000/expense/" + expenses_id,
         {
-          method: "POST",
+          method: "PATCH",
           body: JSON.stringify(finalValue),
           headers: {
             Accept: "application/json, text/plain, */*",

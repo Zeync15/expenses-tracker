@@ -8,7 +8,7 @@ import Head from "next/head";
 
 export async function getServerSideProps() {
   try {
-    let res = await fetch("http://localhost:3000/api/expenses/getAllExpenses");
+    let res = await fetch("http://localhost:5000/expense");
     let allExpenses = await res.json();
 
     res = await fetch("http://localhost:3000/api/income/getAllIncome");

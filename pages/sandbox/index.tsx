@@ -25,13 +25,13 @@ export async function getServerSideProps() {
 const Sandbox = ({
   expensesList,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-
   const defaultValue = {
     item: "",
-    price: "",
-    createdDate: "",
+    price: 0,
+    date: dayjs(),
     category: "",
   };
+
   const [formValues, setFormValues] = useState(defaultValue);
 
   const handleInputChange = (
@@ -45,12 +45,16 @@ const Sandbox = ({
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(formValues);
     event.preventDefault();
     try {
+      const submitValues = {
+        ...formValues,
+        price: +formValues.price,
+      };
+
       let res = await fetch("http://localhost:5000/expense", {
         method: "POST",
-        body: JSON.stringify(formValues),
+        body: JSON.stringify(submitValues),
         headers: {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
@@ -58,7 +62,6 @@ const Sandbox = ({
       });
 
       res = await res.json();
-      // router.push("/");
     } catch (error) {
       console.error(error);
     }
@@ -68,14 +71,8 @@ const Sandbox = ({
 
   return (
     <>
-      <h1>asd</h1>
-      {expensesList.map((expense: any, index: number) => (
-        <div key={index}>
-          <p>{expense.item}</p>
-          <p>{dayjs(expense.createdDate).format("YYYY-MM-DD")}</p>
-        </div>
-      ))}
-
+      <h1 className="mt-5 text-center text-3xl">Sandbox</h1>
+      <br />
       <form
         onSubmit={handleSubmit}
         className="flex flex-col justify-center items-center"
@@ -105,13 +102,12 @@ const Sandbox = ({
         </div>
 
         <div className="flex mb-4">
-          <label className="w-[100px]">Created Date:</label>
+          <label className="w-[100px]">Date:</label>
           <input
             className="border-2 rounded-md p-1 w-[250px]"
-            type="text"
-            maxLength={50}
-            name="createdDate"
-            value={formValues.createdDate}
+            type="date"
+            name="date"
+            value={dayjs(formValues.date).format("YYYY-MM-DD")}
             onChange={handleInputChange}
           />
         </div>
@@ -139,6 +135,14 @@ const Sandbox = ({
           </div>
         </div>
       </form>
+
+      <h1>asd</h1>
+      {expensesList?.map((expense: any, index: number) => (
+        <div key={index}>
+          <p>{expense.item}</p>
+          <p>{dayjs(expense.createdDate).format("YYYY-MM-DD")}</p>
+        </div>
+      ))}
     </>
   );
 };

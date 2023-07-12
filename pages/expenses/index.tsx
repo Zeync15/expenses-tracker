@@ -23,10 +23,10 @@ const Expenses = () => {
     event.preventDefault();
     const finalValue = {
       ...formValues,
-      userId: session?.user.id,
+      price: +formValues.price,
     };
     try {
-      let res = await fetch("http://localhost:3000/api/expenses/addExpenses", {
+      let res = await fetch("http://localhost:5000/expense", {
         method: "POST",
         body: JSON.stringify(finalValue),
         headers: {

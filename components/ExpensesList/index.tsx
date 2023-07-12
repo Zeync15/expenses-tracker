@@ -11,9 +11,9 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
   const handleDelete = async (expenses_id: Key) => {
     try {
       let res = await fetch(
-        "http://localhost:3000/api/expenses/deleteExpenses?id=" + expenses_id,
+        "http://localhost:5000/expense/" + expenses_id,
         {
-          method: "POST",
+          method: "DELETE",
           headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json",
@@ -47,11 +47,11 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
             </thead>
             <tbody>
               {data!.map((item) => (
-                <tr key={item._id} className="hover:bg-gray-100">
+                <tr key={item.id} className="hover:bg-gray-100">
                   <td className="p-2 border w-5/12">{item.item}</td>
                   <td className="p-2 border w-2/12">{item.price}</td>
                   <td className="p-2 border w-2/12">
-                    {dayjs(item.date).format("YYYY-MM-DD")}
+                    {dayjs(item.date).format("DD/MM/YYYY")}
                   </td>
                   <td className="p-2 border w-2/12">{item.category}</td>
                   <td className="p-2 border w-1/12">
@@ -60,12 +60,12 @@ const ExpensesList = ({ data }: ExpensesListProps) => {
                         <span className="text-xs opacity-0 group-hover:opacity-100 absolute bottom-6 right-[-7px] bg-slate-600 text-white p-1 px-2 rounded ease-in duration-150">
                           Edit
                         </span>
-                        <Link href={`/expenses/${item._id}`}>
+                        <Link href={`/expenses/${item.id}`}>
                           <RiEditLine className="hover:scale-110" />
                         </Link>
                       </button>
                       <button
-                        onClick={() => handleDelete(item._id)}
+                        onClick={() => handleDelete(item.id)}
                         className="group relative"
                         disabled={!session}
                       >
