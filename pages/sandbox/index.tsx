@@ -1,30 +1,28 @@
 import dayjs from "dayjs";
-import { InferGetServerSidePropsType } from "next";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
-export async function getServerSideProps() {
-  try {
-    let res = await fetch("http://localhost:5000/expense");
-    let expenses = await res.json();
+const Sandbox = () => {
+  const [allExpenses, setAllExpenses] = useState([]);
+  const { data: session, status } = useSession();
+  console.log(session);
 
-    return {
-      props: {
-        expensesList: JSON.parse(JSON.stringify(expenses)),
+  useEffect(() => {
+    if (status === "authenticated" && session) {
+      getExpenseList();
+    }
+  }, [status, session]);
+
+  const getExpenseList = async () => {
+    const expenseRes = await fetch("http://localhost:5000/expense", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${session?.user?.access_token}`,
       },
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      props: {
-        error: "An error occurred",
-      },
-    };
-  }
-}
-
-const Sandbox = ({
-  expensesList,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    });
+    let allExpenses = await expenseRes.json();
+    setAllExpenses(allExpenses);
+  };
   const defaultValue = {
     item: "",
     price: 0,
@@ -137,7 +135,7 @@ const Sandbox = ({
       </form>
 
       <h1>asd</h1>
-      {expensesList?.map((expense: any, index: number) => (
+      {allExpenses?.map((expense: any, index: number) => (
         <div key={index}>
           <p>{expense.item}</p>
           <p>{dayjs(expense.createdDate).format("YYYY-MM-DD")}</p>

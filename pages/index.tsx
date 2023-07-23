@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InferGetServerSidePropsType } from "next";
 import ExpensesList from "@/components/ExpensesList";
 import IncomeList from "@/components/IncomeList";
 import { RiAddCircleFill } from "react-icons/ri";
 import BudgetSelector from "@/components/BudgetSelector";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 
 export async function getServerSideProps() {
   try {
-    let res = await fetch("http://localhost:5000/expense");
-    let allExpenses = await res.json();
-
-    res = await fetch("http://localhost:3000/api/income/getAllIncome");
-    let allIncome = await res.json();
+    const incomeRes = await fetch(
+      "http://localhost:3000/api/income/getAllIncome"
+    );
+    let allIncome = await incomeRes.json();
 
     return {
       props: {
-        allExpenses: JSON.parse(JSON.stringify(allExpenses)),
         allIncome: JSON.parse(JSON.stringify(allIncome)),
       },
     };
@@ -31,10 +30,29 @@ export async function getServerSideProps() {
 }
 
 const AllExpenses = ({
-  allExpenses,
   allIncome,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [showBudgetSelector, setShowBudgetSelector] = useState(false);
+  const [allExpenses, setAllExpenses] = useState([]);
+  const { data: session, status } = useSession();
+  console.log(session)
+
+  useEffect(() => {
+    if (status === "authenticated" && session) {
+      getExpenseList();
+    }
+  }, [status, session]);
+
+  const getExpenseList = async () => {
+    const expenseRes = await fetch("http://localhost:5000/expense", {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${session?.user?.access_token}`,
+      },
+    });
+    let allExpenses = await expenseRes.json();
+    setAllExpenses(allExpenses);
+  };
 
   return (
     <>
