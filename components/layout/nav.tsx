@@ -22,13 +22,18 @@ const Nav = () => {
       </ul>
 
       <ul className="flex">
+        <li className="p-4">
+          <Link href="/register">Register</Link>
+        </li>
         {session ? (
           <li className="p-4">
-            <button onClick={() => signOut()}> {session?.user.name}</button>
+            <button onClick={() => signOut()}>
+              {session?.user?.username} Next Sign Out
+            </button>
           </li>
         ) : (
           <li className="p-4">
-            <button onClick={() => signIn()}>Sign in</button>
+            <button onClick={() => signIn()}>Next Auth Sign in</button>
           </li>
         )}
       </ul>

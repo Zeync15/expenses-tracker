@@ -26,10 +26,10 @@ const Register = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(event)
+    console.log(event);
     event.preventDefault();
     try {
-      let res = await fetch("http://localhost:4000/users", {
+      let res = await fetch("http://localhost:5000/user", {
         method: "POST",
         body: JSON.stringify(formValues),
         headers: {
@@ -52,7 +52,7 @@ const Register = () => {
       <div className="text-center text-5xl my-8">Register</div>
 
       <Head>
-        <title>Add Expenses</title>
+        <title>Register</title>
       </Head>
 
       <form
@@ -75,7 +75,7 @@ const Register = () => {
           <label className="w-[100px]">password:</label>
           <input
             className="border-2 rounded-md p-1 w-[250px]"
-            type="text"
+            type="password"
             maxLength={50}
             name="password"
             value={formValues.password}
@@ -87,7 +87,7 @@ const Register = () => {
           <label className="w-[100px]">retypedPassword:</label>
           <input
             className="border-2 rounded-md p-1 w-[250px]"
-            type="text"
+            type="password"
             maxLength={50}
             name="retypedPassword"
             value={formValues.retypedPassword}
