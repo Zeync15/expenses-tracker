@@ -35,7 +35,7 @@ const AllExpenses = ({
   const [showBudgetSelector, setShowBudgetSelector] = useState(false);
   const [allExpenses, setAllExpenses] = useState([]);
   const { data: session, status } = useSession();
-  console.log(session)
+  console.log(session, 'expense page')
 
   useEffect(() => {
     if (status === "authenticated" && session) {

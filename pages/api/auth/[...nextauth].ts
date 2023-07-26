@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text", value: "chuiyin" },
+        username: { label: "Username", type: "text", value: "zeyen15" },
         password: { label: "Password", type: "password", value: "asdqwe123" },
       },
       async authorize(credentials, req) {
@@ -55,6 +55,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
+      console.log(token, "t");
       return { ...token, ...user };
     },
     async session({ session, token, user }) {
