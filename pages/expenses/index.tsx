@@ -32,6 +32,7 @@ const Expenses = () => {
         headers: {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.user.access_token}`,
         },
       });
 
