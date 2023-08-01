@@ -6,6 +6,7 @@ import { RiAddCircleFill } from "react-icons/ri";
 import BudgetSelector from "@/components/BudgetSelector";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
+import useAxiosAuth from "@/lib/hooks/useAxiosAuth";
 
 export async function getServerSideProps() {
   try {
@@ -37,22 +38,30 @@ const AllExpenses = ({
   const { data: session, status } = useSession();
   console.log(session, 'expense page')
 
+  const axiosAuth = useAxiosAuth();
+
   useEffect(() => {
     if (status === "authenticated" && session) {
       getExpenseList();
     }
   }, [status, session]);
-
+ 
   const getExpenseList = async () => {
-    const expenseRes = await fetch("http://localhost:5000/expense", {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${session?.user?.access_token}`,
-      },
-    });
-    let allExpenses = await expenseRes.json();
-    setAllExpenses(allExpenses);
+    // const expenseRes = await fetch("http://localhost:5000/expense", {
+    //   method: "GET",
+    //   headers: {
+    //     authorization: `Bearer ${session?.user?.access_token}`,
+    //   },
+    // });
+    // let allExpenses = await expenseRes.json();
+    // setAllExpenses(allExpenses);
+
+    const res = await axiosAuth.get('/expense')
+    setAllExpenses(res.data);
   };
+
+  // getExpenseList();
+
 
   return (
     <>

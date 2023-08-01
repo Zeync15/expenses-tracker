@@ -1,10 +1,9 @@
+import axios from "@/lib/axios";
 import NextAuth, { NextAuthOptions, SessionStrategy } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import * as dayjs from "dayjs";
 
 export const authOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -13,16 +12,12 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password", value: "asdqwe123" },
       },
       async authorize(credentials, req) {
-        let res = await fetch("http://localhost:5000/auth/login", {
-          method: "POST",
-          body: JSON.stringify(credentials),
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-          },
+        const res = await axios.post("/auth/login", {
+          username: credentials?.username,
+          password: credentials?.password,
         });
 
-        const user = await res.json();
+        const user = await res.data;
 
         if (user) {
           return user;
@@ -45,11 +40,11 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }) {
-      console.log(token, "t");
+    async jwt({ token, user, account }) {
       return { ...token, ...user };
     },
     async session({ session, token, user }) {
+      console.log(token, 'line 47')
       session.user = token as any;
 
       return session;
